@@ -3,8 +3,6 @@
 软件包github地址为：https://github.com/alsrobot-microbit-makecode-packages/CooCoo
 软件包修改维护人员：https://github.com/bobolx
 
-This library provides a Microsoft PXT package for BitBot, see
-https://4tronix.co.uk/bitbot/.
 该软件包专门为micro:bit版CooCoo智能编程机器人开发，控制器详细信息请访问：http://www.alsrobot.cn/goods-874.html
 
 ## 让CooCoo行驶    
