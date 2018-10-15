@@ -3,7 +3,7 @@
     "dependencies": {
         "core": "*"
     },
-    "description": "CooCoo智能编程机器人Microbit版 由哈尔滨奥松机器人科技股份有限公司（Alsrobot）提供支持",
+    "description": "CooCoo智能编程机器人Microbit版 由哈尔滨奥松机器人科技股份有限公司（Alsrobot）开发、维护",
     "icon": "./coocoo.jpg",
     "license": "MIT",
     "files": [
