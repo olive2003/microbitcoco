@@ -3,8 +3,8 @@
     "dependencies": {
         "core": "*"
     },
-    "description": "CooCoo智能编程机器人Microbit版 由哈尔滨奥松机器人科技股份有限公司（Alsrobot）开发、维护",
-    "icon": "./coocoo.jpg",
+    "description": "Microbit version of CooCoo intelligent programming robot developed and maintained by Harbin Aosong Robot Technology Co., Ltd (ALSRobot). Microbit版CooCoo智能编程机器人由哈尔滨奥松机器人科技股份有限公司开发、维护",
+    "icon": "icon.png",
     "license": "MIT",
     "files": [
         "main.ts"
