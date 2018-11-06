@@ -62,7 +62,7 @@ CooCoo.sensorDistance(PingUnit.Centimeters)
 MIT
 
 
-# CooCoo Package for Microsoft PXT
+# CooCoo智能编程机器人microbit软件包
 
 软件包github地址为：https://github.com/alsrobot-microbit-makecode-packages/CooCoo
 软件包修改维护人员：https://github.com/bobolx
