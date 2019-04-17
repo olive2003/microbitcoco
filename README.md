@@ -1,7 +1,7 @@
 # CooCoo Package for Microsoft PXT
 
 The github address of the package is https://github.com/alsrobot-microbit-makecode-packages/CooCoo
-The maintenance staff of the package is https://github.com/bobolx
+The maintenance staff of the package is https://github.com/lzl525898
 
 This package is specially developed for the micro:bit version of the CooCoo intelligent programming robot. For detailed information on the controller, please visit:http://www.alsrobot.cn/goods-874.html
 
@@ -65,7 +65,7 @@ MIT
 # 奥松CooCoo智能编程机器人microbit软件包
 
 软件包github地址为：https://github.com/alsrobot-microbit-makecode-packages/CooCoo
-软件包修改维护人员：https://github.com/bobolx
+软件包修改维护人员：https://github.com/lzl525898
 
 该软件包专门为micro:bit版CooCoo智能编程机器人开发，控制器详细信息请访问：http://www.alsrobot.cn/goods-874.html
 

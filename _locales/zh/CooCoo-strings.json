@@ -1,0 +1,9 @@
+{
+	"CooCoo.motorRun|block": "电机 左 速度%leftSpeed| 右 速度%rightSpeed",
+	"CooCoo.motorStop|block": "电机 停止 %direction",
+	"CooCoo.motorStopAll|block": "停止所有电机",
+	"CooCoo.myPlayTone|block": "播放音调 %tone| ，节拍 %beatInfo",
+	"CooCoo.MyPlayMusic|block": "播放音乐 %song",
+	"CooCoo.readPatrol|block": "巡线传感器 %patrol",
+	"CooCoo.sensorDistance|block": "探测障碍物距离 %unit"
+}
