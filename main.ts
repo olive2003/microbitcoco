@@ -1,8 +1,8 @@
 
 enum MotorDirection {
-    //% block="左侧"
+    //% block="Left"
     left,
-    //% block="右侧"
+    //% block="Right"
     right
 }
 
@@ -32,9 +32,9 @@ enum BeatList {
 }
 
 enum SongList {
-    //% block="生日歌"
+    //% block="Happy Birthday"
     birthday = 1,
-    //% block="婚礼进行曲"
+    //% block="Wedding March"
     wedding = 2
 }
 
@@ -64,7 +64,7 @@ namespace CooCoo {
     /**
      * 设置电机
      */
-    //% blockId="coocoo_motor" block="电机 左 速度%leftSpeed| 右 速度%rightSpeed"
+	//% blockId="coocoo_motor" block="Set DC Motor Left Speed %leftSpeed| Right Speed %rightSpeed"
     //% leftSpeed.min=-1023 leftSpeed.max=1023
     //% rightSpeed.min=-1023 rightSpeed.max=1023
     //% weight=100
@@ -93,7 +93,7 @@ namespace CooCoo {
     /**
      * 停止单个电机
      */
-    //% blockId="coocoo_stop" block="电机 停止 %direction"
+    //% blockId="coocoo_stop" block="Stop DC Motor %direction"
     //% weight=98
     export function motorStop(direction: MotorDirection): void {
         if(direction == MotorDirection.left){
@@ -111,7 +111,7 @@ namespace CooCoo {
      * 停止所有电机
      */
     //% weight=97
-    //% blockId="coocoo_stopAll" block="停止所有电机"
+    //% blockId="coocoo_stopAll" block="Stop All DC"
     export function motorStopAll(): void {
         //右电机
         pins.analogWritePin(AnalogPin.P1, 0);
@@ -125,7 +125,7 @@ namespace CooCoo {
      * 播放音调
      */
     //% weight=89
-    //% blockId="coocoo_tone" block="播放音调 %tone| ，节拍 %beatInfo"
+    //% blockId="coocoo_tone" block="Play Tone %tone| for %beatInfo"
     export function myPlayTone(tone:ToneHzTable, beatInfo:BeatList): void {
 
         if(beatInfo == BeatList.whole_beat){
@@ -172,7 +172,7 @@ namespace CooCoo {
      * 播放音乐
      */
     //% weight=88
-    //% blockId="coocoo_music" block="播放音乐 %song"
+    //% blockId="coocoo_music" block="Play %song"
     export function MyPlayMusic(song: SongList): void {
         if(song == SongList.wedding){
             music.beginMelody(music.builtInMelody(Melodies.Wedding), MelodyOptions.Once);
@@ -183,7 +183,7 @@ namespace CooCoo {
     }
 
     //% weight=79
-    //% blockId="coocoo_patrol" block="巡线传感器 %patrol"
+    //% blockId="coocoo_patrol" block="Line Tracer Detects %patrol"
     export function readPatrol(patrol:Patrol): boolean {
 
         // let p1 = pins.digitalReadPin(DigitalPin.P13);
@@ -218,7 +218,7 @@ namespace CooCoo {
         }
     }
 
-    //% blockId=coocoo_sensor block="探测障碍物距离 %unit"
+    //% blockId=coocoo_sensor block="Ultrasonic Distance %unit"
     //% weight=69
     export function sensorDistance(unit: PingUnit, maxCmDistance = 500): number {
         // send pulse
