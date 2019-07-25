@@ -106,6 +106,17 @@ namespace CooCoo {
         }
     }
 
+        /**
+     * TODO: 在此处描述您的函数
+     * @param n 在此处描述参数, eg: 5
+     * @param s 在此处描述参数, eg: "Hello"
+     * @param e 在此处描述参数
+     */
+    //% block
+    export function foo(n: number, s: string): void {
+        // Add code here
+    }
+
 
     /**
      * 停止所有电机
