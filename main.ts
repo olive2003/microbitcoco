@@ -54,7 +54,7 @@ namespace Banbao {
             case 3: p = DigitalPin.P5; break;
         }
         
-        if (pins.digitalReadPin(p) == 0)
+        if (pins.digitalReadPin(p) == state)
             return true;
         else
             return false;
