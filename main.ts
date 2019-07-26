@@ -18,7 +18,7 @@ namespace sonar {
 
      * @param maxCmDistance maximum distance in centimeters (default is 500)
      */
-    //% blockId=sonar_ping block="ping trig %trig|echo %echo"
+    //% blockId=sonar_ping block="ping port %port|maxdistance %distance"
     export function ping(io: IOPORT,  maxCmDistance = 500): number {
         // send pulse
         let trig: DigitalPin;
