@@ -42,13 +42,17 @@ namespace Banbao {
 
     /**
        检查巡线传感器测定的是白线还是黑线
-    * @param io 在此处描述参数, eg: "C"
-    * @param state 在此处描述参数, eg: "White"
+
      */
-
     //% blockId=octopus_adkeyboard weight=90 blockGap=30
-
     //% block="巡线传感器 端口 %io 是否 %state"
+
+    /** 
+
+       *@param io 在此处描述参数, eg: "C"
+        *@param state 在此处描述参数, eg: "White"
+       
+       */
     export function Rpatrol(io: IOPORT, state: White_Black_Line): boolean {
         let p: DigitalPin;
         switch (io) { 
