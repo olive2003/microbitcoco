@@ -5,9 +5,9 @@ enum IOPORT {
     D = 4
 }
 
-enum OnOff {
-    Off = 0,
-    On = 1
+enum  White_Black_Line {
+    Black = 0,
+    White = 1
 }
 
 
@@ -45,8 +45,8 @@ namespace Banbao {
      */
 
     //% blockId=octopus_adkeyboard weight=90 blockGap=30
-    //% block="巡线传感器 端口 %io 状态 %state"
-    export function Rpatrol(io: IOPORT, state: OnOff): boolean {
+    //% block="巡线传感器 端口 %io 是否 %state"
+    export function Rpatrol(io: IOPORT, state: White_Black_Line): boolean {
         let p: DigitalPin;
         switch (io) { 
             case 1: p = DigitalPin.P3; break;
