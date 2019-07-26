@@ -1,37 +1,40 @@
-
+enum PingUnit {
+    //% block="μs"
+    MicroSeconds,
+    //% block="cm"
+    Centimeters,
+    //% block="inches"
+    Inches
+}
 
 /**
  * Sonar and ping utilities
  */
-//% color="#2c3e50" weight=8
-namespace Banbao {
-
-
+//% color="#2c3e50" weight=10
+namespace sonar {
     /**
-     * 设置电机
+     * Send a ping and get the echo time (in microseconds) as a result
+     * @param trig tigger pin
+     * @param echo echo pin
+     * @param unit desired conversion unit
+     * @param maxCmDistance maximum distance in centimeters (default is 500)
      */
-	//% blockId="coocoo_motor" block="Set DC Motor Left Speed %leftSpeed| Right Speed %rightSpeed"
-    //% leftSpeed.min=-1023 leftSpeed.max=1023
-    //% rightSpeed.min=-1023 rightSpeed.max=1023
-    //% weight=100
-    export function motorRun(leftSpeed: number, rightSpeed: number): void {
-        let leftRotation = 0x0;
-        if(leftSpeed < 0){
-            leftRotation = 0x1;
-        }
+    //% blockId=sonar_ping block="ping trig %trig|echo %echo|unit %unit"
+    export function ping(trig: DigitalPin, echo: DigitalPin, unit: PingUnit, maxCmDistance = 500): number {
+        // send pulse
+        pins.setPull(trig, PinPullMode.PullNone);
+        pins.digitalWritePin(trig, 0);
+        control.waitMicros(2);
+        pins.digitalWritePin(trig, 1);
+        control.waitMicros(10);
+        pins.digitalWritePin(trig, 0);
+        // read pulse
+        const d = pins.pulseIn(echo, PulseValue.High, maxCmDistance * 58);
 
-        let rightRotation = 0x0;
-        if(rightSpeed < 0){
-            rightRotation = 0x1;
+        switch (unit) {
+            case PingUnit.Centimeters: return Math.idiv(d, 58);
+            case PingUnit.Inches: return Math.idiv(d, 148);
+            default: return d ;
         }
-        
-       //左电机
-        pins.analogWritePin(AnalogPin.P15, Math.abs(leftSpeed));
-        pins.digitalWritePin(DigitalPin.P12, leftRotation);
-        
-        //右电机
-        pins.analogWritePin(AnalogPin.P1, Math.abs(rightSpeed));
-        pins.digitalWritePin(DigitalPin.P8, rightRotation);
-        
     }
 }
