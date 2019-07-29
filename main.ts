@@ -99,7 +99,9 @@ namespace Banbao {
         else
             return false;
     }
-
+  /**
+     * A NeoPixel strip
+     */
     export class Strip {
         buf: Buffer;
         pin: DigitalPin;
@@ -109,10 +111,109 @@ namespace Banbao {
         _length: number; // number of LEDs
         _mode: NeoPixelMode;
         _matrixWidth: number; // number of leds in a matrix - if any
+
+        /**
+         * Shows all LEDs to a given color (range 0-255 for r, g, b). 
+         * @param rgb RGB color of the LED
+         */
+        //% blockId="neopixel_set_strip_color" block="%strip|show color %rgb=neopixel_colors" 
+        //% weight=85 blockGap=8
+
+        showColor(rgb: number) {
+            rgb = rgb >> 0;
+            this.setAllRGB(rgb);
+            this.show();
+        }
+
+    
+
         
+        /**
+         * For NeoPixels with RGB+W LEDs, set the white LED brightness. This only works for RGB+W NeoPixels.
+         * @param pixeloffset position of the LED in the strip
+         * @param white brightness of the white LED
+         */
+        //% blockId="neopixel_set_pixel_white" block="%strip|set pixel white LED at %pixeloffset|to %white" 
+        //% blockGap=8
+        //% weight=80
+
+        setPixelWhiteLED(pixeloffset: number, white: number): void {            
+            if (this._mode === NeoPixelMode.RGBW) {
+                this.setPixelW(pixeloffset >> 0, white >> 0);
+            }
+        }
+
+        /** 
+         * Send all the changes to the strip.
+         */
+        //% blockId="neopixel_show" block="%strip|show" blockGap=8
+        //% weight=79
+    
+        show() {
+            ws2812b.sendBuffer(this.buf, this.pin);
+        }
+
+        /**
+         * Turn off all LEDs.
+         * You need to call ``show`` to make the changes visible.
+         */
+        //% blockId="neopixel_clear" block="%strip|clear"
+        //% weight=76
+
+        clear(): void {
+            const stride = this._mode === NeoPixelMode.RGBW ? 4 : 3;
+            this.buf.fill(0, this.start * stride, this._length * stride);
+        }
+
+        /**
+         * Gets the number of pixels declared on the strip
+         */
+        //% blockId="neopixel_length" block="%strip|length" blockGap=8
+        //% weight=60 
+        length() {
+            return this._length;
+        }
+
+        /**
+         * Set the brightness of the strip. This flag only applies to future operation.
+         * @param brightness a measure of LED brightness in 0-255. eg: 255
+         */
+        //% blockId="neopixel_set_brightness" block="%strip|set brightness %brightness" blockGap=8
+        //% weight=59
+ 
         setBrightness(brightness: number): void {
             this.brightness = brightness & 0xff;
         }
+
+
+        /** 
+         * Create a range of LEDs.
+         * @param start offset in the LED strip to start the range
+         * @param length number of LEDs in the range. eg: 4
+         */
+        //% weight=89
+        //% blockId="neopixel_range" block="%strip|range from %start|with %length|leds"
+
+        //% blockSetVariable=range
+        range(start: number, length: number): Strip {
+            start = start >> 0;
+            length = length >> 0;
+            let strip = new Strip();
+            strip.buf = this.buf;
+            strip.pin = this.pin;
+            strip.brightness = this.brightness;
+            strip.start = this.start + Math.clamp(0, this._length - 1, start);
+            strip._length = Math.clamp(0, this._length - (strip.start - this.start), length);
+            strip._matrixWidth = 0;
+            strip._mode = this._mode;
+            return strip;
+        }
+
+
+        /**
+         * Set the pin where the neopixel is connected, defaults to P0.
+         */
+        //% weight=10
 
         setPin(pin: DigitalPin): void {
             this.pin = pin;
@@ -121,15 +222,33 @@ namespace Banbao {
         }
 
         /**
-         * Shows all LEDs to a given color (range 0-255 for r, g, b). 
-         * @param rgb RGB color of the LED
+         * Estimates the electrical current (mA) consumed by the current light configuration.
          */
-        //% blockId="neopixel_set_strip_color" block="%strip|show color %rgb=neopixel_colors" 
-        //% weight=85 blockGap=8
-        showColor(rgb: number) {
-            rgb = rgb >> 0;
-            this.setAllRGB(rgb);
-            this.show();
+        //% weight=9 blockId=neopixel_power block="%strip|power (mA)"
+
+        power(): number {
+            const stride = this._mode === NeoPixelMode.RGBW ? 4 : 3;
+            const end = this.start + this._length;
+            let p = 0;
+            for (let i = this.start; i < end; ++i) {
+                const ledoffset = i * stride;
+                for (let j = 0; j < stride; ++j) {
+                    p += this.buf[i + j];
+                }
+            }
+            return Math.idiv(this.length(), 2) /* 0.5mA per neopixel */
+                + Math.idiv(p * 433, 10000); /* rought approximation */
+        }
+
+        private setBufferRGB(offset: number, red: number, green: number, blue: number): void {
+            if (this._mode === NeoPixelMode.RGB_RGB) {
+                this.buf[offset + 0] = red;
+                this.buf[offset + 1] = green;
+            } else {
+                this.buf[offset + 0] = green;
+                this.buf[offset + 1] = red;
+            }
+            this.buf[offset + 2] = blue;
         }
 
         private setAllRGB(rgb: number) {
@@ -149,43 +268,70 @@ namespace Banbao {
                 this.setBufferRGB(i * stride, red, green, blue)
             }
         }
+        private setAllW(white: number) {
+            if (this._mode !== NeoPixelMode.RGBW)
+                return;
 
-        private setBufferRGB(offset: number, red: number, green: number, blue: number): void {
-            if (this._mode === NeoPixelMode.RGB_RGB) {
-                this.buf[offset + 0] = red;
-                this.buf[offset + 1] = green;
-            } else {
-                this.buf[offset + 0] = green;
-                this.buf[offset + 1] = red;
+            let br = this.brightness;
+            if (br < 255) {
+                white = (white * br) >> 8;
             }
-            this.buf[offset + 2] = blue;
+            let buf = this.buf;
+            let end = this.start + this._length;
+            for (let i = this.start; i < end; ++i) {
+                let ledoffset = i * 4;
+                buf[ledoffset + 3] = white;
+            }
         }
+        private setPixelRGB(pixeloffset: number, rgb: number): void {
+            if (pixeloffset < 0
+                || pixeloffset >= this._length)
+                return;
 
-        show() {
-            ws2812b.sendBuffer(this.buf, this.pin);
+            let stride = this._mode === NeoPixelMode.RGBW ? 4 : 3;
+            pixeloffset = (pixeloffset + this.start) * stride;
+
+            let red = unpackR(rgb);
+            let green = unpackG(rgb);
+            let blue = unpackB(rgb);
+
+            let br = this.brightness;
+            if (br < 255) {
+                red = (red * br) >> 8;
+                green = (green * br) >> 8;
+                blue = (blue * br) >> 8;
+            }
+            this.setBufferRGB(pixeloffset, red, green, blue)
         }
+        private setPixelW(pixeloffset: number, white: number): void {
+            if (this._mode !== NeoPixelMode.RGBW)
+                return;
 
-        range(start: number, length: number): Strip {
-            start = start >> 0;
-            length = length >> 0;
-            let strip = new Strip();
-            strip.buf = this.buf;
-            strip.pin = this.pin;
-            strip.brightness = this.brightness;
-            strip.start = this.start + Math.clamp(0, this._length - 1, start);
-            strip._length = Math.clamp(0, this._length - (strip.start - this.start), length);
-            strip._matrixWidth = 0;
-            strip._mode = this._mode;
-            return strip;
+            if (pixeloffset < 0
+                || pixeloffset >= this._length)
+                return;
+
+            pixeloffset = (pixeloffset + this.start) * 4;
+
+            let br = this.brightness;
+            if (br < 255) {
+                white = (white * br) >> 8;
+            }
+            let buf = this.buf;
+            buf[pixeloffset + 3] = white;
         }
     }
-        /**
+
+    /**
      * Create a new NeoPixel driver for `numleds` LEDs.
      * @param pin the pin where the neopixel is connected.
      * @param numleds number of leds in the strip, eg: 24,30,60,64
      */
     //% blockId="neopixel_create" block="NeoPixel at pin %pin|with %numleds|leds as %mode"
+    //% weight=90 blockGap=8
 
+    //% trackArgs=0,2
+    //% blockSetVariable=strip
     export function create(pin: DigitalPin, numleds: number, mode: NeoPixelMode): Strip {
         let strip = new Strip();
         let stride = mode === NeoPixelMode.RGBW ? 4 : 3;
@@ -199,10 +345,32 @@ namespace Banbao {
         return strip;
     }
 
+    /**
+     * Converts red, green, blue channels into a RGB color
+     * @param red value of the red channel between 0 and 255. eg: 255
+     * @param green value of the green channel between 0 and 255. eg: 255
+     * @param blue value of the blue channel between 0 and 255. eg: 255
+     */
+    //% weight=1
+    //% blockId="neopixel_rgb" block="red %red|green %green|blue %blue"
+
+    export function rgb(red: number, green: number, blue: number): number {
+        return packRGB(red, green, blue);
+    }
+
+    /**
+     * Gets the RGB value of a known color
+    */
+    //% weight=2 blockGap=8
+    //% blockId="neopixel_colors" block="%color"
+
+    export function colors(color: NeoPixelColors): number {
+        return color;
+    }
+
     function packRGB(a: number, b: number, c: number): number {
         return ((a & 0xFF) << 16) | ((b & 0xFF) << 8) | (c & 0xFF);
     }
-
     function unpackR(rgb: number): number {
         let r = (rgb >> 16) & 0xFF;
         return r;
@@ -216,15 +384,4 @@ namespace Banbao {
         return b;
     }
 
-    /**
-     * Converts red, green, blue channels into a RGB color
-     * @param red value of the red channel between 0 and 255. eg: 255
-     * @param green value of the green channel between 0 and 255. eg: 255
-     * @param blue value of the blue channel between 0 and 255. eg: 255
-     */
-    //% weight=1
-    //% blockId="neopixel_rgb" block="red %red|green %green|blue %blue"
-    export function rgb(red: number, green: number, blue: number): number {
-        return packRGB(red, green, blue);
-    } 
 }   
