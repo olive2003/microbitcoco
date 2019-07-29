@@ -2,7 +2,8 @@ enum IOPORT {
     A = 1,
     B = 2,
     C = 3,
-    D = 4
+    D = 4,
+    E = 5
 }
 
 enum  White_Black_Line {
@@ -28,6 +29,7 @@ namespace Banbao {
         let echo: DigitalPin;
         switch (io) { 
             case 3: trig = DigitalPin.P5; echo = DigitalPin.P11; break;
+            case 5: trig = DigitalPin.P14; echo = DigitalPin.P15; break;
         }
         pins.setPull(trig, PinPullMode.PullNone);
         pins.digitalWritePin(trig, 0);
