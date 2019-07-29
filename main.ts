@@ -119,7 +119,14 @@ namespace Banbao {
             pins.digitalWritePin(this.pin, 0);
             // don't yield to avoid races on initialization
         }
-
+        
+        /**
+         * Shows all LEDs to a given color (range 0-255 for r, g, b). 
+         * @param rgb RGB color of the LED
+         */
+        //% blockId="neopixel_set_strip_color" block="%strip|show color %rgb=neopixel_colors" 
+        //% weight=85 blockGap=8
+        //% parts="neopixel"
         showColor(rgb: number) {
             rgb = rgb >> 0;
             this.setAllRGB(rgb);
@@ -199,7 +206,7 @@ namespace Banbao {
     function packRGB(a: number, b: number, c: number): number {
         return ((a & 0xFF) << 16) | ((b & 0xFF) << 8) | (c & 0xFF);
     }
-    
+
     function unpackR(rgb: number): number {
         let r = (rgb >> 16) & 0xFF;
         return r;
