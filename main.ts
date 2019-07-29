@@ -124,55 +124,11 @@ namespace Banbao {
             this.setAllRGB(rgb);
             this.show();
         }
-
-    
-
-        
-        /**
-         * For NeoPixels with RGB+W LEDs, set the white LED brightness. This only works for RGB+W NeoPixels.
-         * @param pixeloffset position of the LED in the strip
-         * @param white brightness of the white LED
-         */
-        //% blockId="neopixel_set_pixel_white" block="%strip|set pixel white LED at %pixeloffset|to %white" 
-        //% blockGap=8
-        //% weight=80
-
-        setPixelWhiteLED(pixeloffset: number, white: number): void {            
-            if (this._mode === NeoPixelMode.RGBW) {
-                this.setPixelW(pixeloffset >> 0, white >> 0);
-            }
-        }
-
-        /** 
-         * Send all the changes to the strip.
-         */
-        //% blockId="neopixel_show" block="%strip|show" blockGap=8
-        //% weight=79
     
         show() {
             ws2812b.sendBuffer(this.buf, this.pin);
         }
 
-        /**
-         * Turn off all LEDs.
-         * You need to call ``show`` to make the changes visible.
-         */
-        //% blockId="neopixel_clear" block="%strip|clear"
-        //% weight=76
-
-        clear(): void {
-            const stride = this._mode === NeoPixelMode.RGBW ? 4 : 3;
-            this.buf.fill(0, this.start * stride, this._length * stride);
-        }
-
-        /**
-         * Gets the number of pixels declared on the strip
-         */
-        //% blockId="neopixel_length" block="%strip|length" blockGap=8
-        //% weight=60 
-        length() {
-            return this._length;
-        }
 
         /**
          * Set the brightness of the strip. This flag only applies to future operation.
@@ -221,24 +177,6 @@ namespace Banbao {
             // don't yield to avoid races on initialization
         }
 
-        /**
-         * Estimates the electrical current (mA) consumed by the current light configuration.
-         */
-        //% weight=9 blockId=neopixel_power block="%strip|power (mA)"
-
-        power(): number {
-            const stride = this._mode === NeoPixelMode.RGBW ? 4 : 3;
-            const end = this.start + this._length;
-            let p = 0;
-            for (let i = this.start; i < end; ++i) {
-                const ledoffset = i * stride;
-                for (let j = 0; j < stride; ++j) {
-                    p += this.buf[i + j];
-                }
-            }
-            return Math.idiv(this.length(), 2) /* 0.5mA per neopixel */
-                + Math.idiv(p * 433, 10000); /* rought approximation */
-        }
 
         private setBufferRGB(offset: number, red: number, green: number, blue: number): void {
             if (this._mode === NeoPixelMode.RGB_RGB) {
