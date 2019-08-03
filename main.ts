@@ -118,6 +118,27 @@ namespace Banbao {
 
         showColor(rgb: number) {
             rgb = rgb >> 0;
+            this.setAllRGB(rgb);
+            this.show();
+        }
+
+        show() {
+            ws2812b.sendBuffer(this.buf, this.pin);
+        }
+        
+        private setAllRGB(rgb: number) {
+            let red =1;
+            let green = 1;
+            let blue =1;
+
+            const br = this.brightness;
+            if (br < 255) {
+                red = (red * br) >> 8;
+                green = (green * br) >> 8;
+                blue = (blue * br) >> 8;
+            }
+            const end = this.start + this._length;
+            const stride = this._mode === NeoPixelMode.RGBW ? 4 : 3;
 
         }
     }
