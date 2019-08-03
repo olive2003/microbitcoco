@@ -1,7 +1,8 @@
 {
     "name": "CooCoo",
     "dependencies": {
-        "core": "*"
+        "core": "*",
+        "ws2812b": "github:Microsoft/pxt-ws2812b#v0.0.4"
     },
     "description": "Microbit version of CooCoo intelligent programming robot developed and maintained by Harbin Aosong Robot Technology Co., Ltd (ALSRobot). Microbit版CooCoo智能编程机器人由哈尔滨奥松机器人科技股份有限公司开发、维护",
     "icon": "icon.png",
