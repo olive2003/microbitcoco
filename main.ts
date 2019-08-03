@@ -57,7 +57,7 @@ namespace Banbao {
      * @param io 在此处描述参数, eg: "C"
      * @param maxCmDistance 在此处描述参数, eg: "500"
      */
-    //% blockId=sonar_ping block="超声波 端口 %io|最大距离 %maxCmDistance"
+    //% blockId=sonar_ping block="超声波 端口 %io|最大距离 %maxCmDistance  厘米"
     export function ping(io: IOPORT,  maxCmDistance = 500): number {
         // send pulse
         let trig: DigitalPin;
@@ -112,7 +112,8 @@ namespace Banbao {
          * Shows all LEDs to a given color (range 0-255 for r, g, b). 
          * @param rgb RGB color of the LED
          */
-        //% blockId="neopixel_set_strip_color" block="%strip|show color %rgb=neopixel_colors" 
+        //% blockId="neopixel_set_strip_color"
+        //% block="%strip|show color %rgb=neopixel_colors" 
         //% weight=85 blockGap=8
 
         showColor(rgb: number) {
