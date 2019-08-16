@@ -272,7 +272,7 @@ namespace Banbao {
      * Create a new NeoPixel driver for LEDs.
      * @param io the pin where the neopixel is connected.
      */
-    //% blockId="neopixel_create" block="NeoPixel at io %io|with 3leds as RGB"
+    //% blockId="neopixel_create" block="NeoPixel at io %io|with %numleds|leds as %mode"
     //% weight=90 blockGap=8
     //% trackArgs=0,2
     //% blockSetVariable=strip
