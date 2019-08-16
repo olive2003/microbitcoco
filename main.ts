@@ -276,7 +276,7 @@ namespace Banbao {
     //% weight=90 blockGap=8
     //% trackArgs=0,2
     //% blockSetVariable=strip
-    export function create(io: IOPORT): Strip {
+    export function create(io: IOPORT, numleds: number, mode: NeoPixelMode): Strip {
         let strip = new Strip();
         let stride = mode === NeoPixelMode.RGBW ? 4 : 3;
         strip.buf = pins.createBuffer(3 * stride);
