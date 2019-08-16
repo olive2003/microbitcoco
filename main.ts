@@ -272,20 +272,19 @@ namespace Banbao {
      * Create a new NeoPixel driver for LEDs.
      * @param io the pin where the neopixel is connected.
      */
-    //% blockId="neopixel_create" block="NeoPixel at io %io|with %numleds|leds as %mode"
+    //% blockId="neopixel_create" block="NeoPixel at io %io|with 3leds as RGB"
     //% weight=90 blockGap=8
     //% trackArgs=0,2
     //% blockSetVariable=strip
-    export function create(io: IOPORT, numleds: number, mode: NeoPixelMode): Strip {
+    export function create(io: IOPORT): Strip {
         let strip = new Strip();
-        let stride = mode === NeoPixelMode.RGBW ? 4 : 3;
-        strip.buf = pins.createBuffer(3 * stride);
+
         strip.start = 0;
         strip._length = 3;
         strip._mode = NeoPixelMode.RGB;
         strip._matrixWidth = 0;
-        strip.setBrightness(128)
-        strip.setPin(pin)
+        strip.setBrightness(128);
+  
         return strip;
     }
 
