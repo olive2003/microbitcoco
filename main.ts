@@ -312,38 +312,32 @@ namespace Banbao {
         }
     }
 
-   /*  
-    export function ping(io: IOPORT,  maxCmDistance = 500): number {
-        // send pulse
-        let trig: DigitalPin;
-        let echo: DigitalPin;
-        switch (io) { 
-            case 3: trig = DigitalPin.P5; echo = DigitalPin.P11; break;
-            case 5: trig = DigitalPin.P14; echo = DigitalPin.P15; break;
-        }
-    */
 
     /**
      * Create a new NeoPixel driver for LEDs.
      * @param io the pin where the neopixel is connected.
-     
+     */
     //% blockId="neopixel_create" block="NeoPixel at io %io|with 3leds as RGB"
     //% weight=90 blockGap=8
     //% trackArgs=0,2
     //% blockSetVariable=strip
     export function create(io: IOPORT): Strip {
         let strip = new Strip();
-
         strip.start = 0;
         strip._length = 3;
         strip._mode = NeoPixelMode.RGB;
         strip._matrixWidth = 0;
         strip.setBrightness(128);
-  
         return strip;
-    }*/
+    }
 
-
+    /**
+     * Converts red, green, blue channels into a RGB color
+     * @param red value of the red channel between 0 and 255. eg: 255
+     * @param green value of the green channel between 0 and 255. eg: 255
+     * @param blue value of the blue channel between 0 and 255. eg: 255
+     */
+    //% weight=1
     //% block="red %red|green %green|blue %blue"
     export function rgb(red: number, green: number, blue: number): number {
         return packRGB(red, green, blue);
