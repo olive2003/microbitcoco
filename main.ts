@@ -129,16 +129,26 @@ namespace Banbao {
             pins.digitalWritePin(io1,0);
             pins.analogWritePin(io2,speed);
         }
+        else
+        {
+            pins.digitalWritePin(io1,1);
+            pins.analogWritePin(io2,1023-speed);           
+        }
     }
 
     /**
      * 红鲤鱼与绿鲤鱼与驴
-     * @param io 在此处描述参数, eg: "C"
-     * @param speed 在此处描述参数, eg: "50"
      */
-    //@param speed 在此处描述参数, eg: "500"
     //% block="电机 端口 %io %Bratype"
-    export function MotorStop(io: IOPORT, Bratype: Brake_Type) {
+    export function MotorStop(io: MOTORPORT, Bratype: Brake_Type) {
+        let io1: DigitalPin;   //pin8 pin16
+        let io2: DigitalPin;    //pin1 pin2
+        switch (io) { 
+            case 4: io1 = DigitalPin.P8; io2=DigitalPin.P1; break;
+            case 5: io1 = DigitalPin.P16; io2=DigitalPin.P2; break;
+        }     
+        pins.digitalWritePin(io1,Bratype);
+        pins.digitalWritePin(io2,Bratype);  
 
     }
 
