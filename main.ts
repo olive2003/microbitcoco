@@ -316,7 +316,7 @@ namespace Banbao {
     /**
      * Create a new NeoPixel driver for LEDs.
      * @param io the pin where the neopixel is connected.
-     */
+     
     //% blockId="neopixel_create" block="NeoPixel at io %io|with 3leds as RGB"
     //% weight=90 blockGap=8
     //% trackArgs=0,2
@@ -331,7 +331,7 @@ namespace Banbao {
         strip.setBrightness(128);
   
         return strip;
-    }
+    }*/
 
     /**
      * Converts red, green, blue channels into a RGB color
