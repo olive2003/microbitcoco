@@ -350,7 +350,7 @@ namespace Banbao {
      * @param blue value of the blue channel between 0 and 255. eg: 255
      */
     //% weight=1
-    //% blockId="neopixel_rgb" block="red %red|green %green|blue %blue"
+    //% blockId="neopixel_agb" block="red %red|green %green|blue %blue"
 
     export function rgb(red: number, green: number, blue: number): number {
         return packRGB(red, green, blue);
