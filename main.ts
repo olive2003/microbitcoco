@@ -8,6 +8,18 @@ enum IOPORT {
     E = 5
 }
 
+enum MOTORPORT { 
+    D = 4,
+    E = 5
+}
+
+enum  Brake_Type {
+    //% block="制动刹车"
+    brake = 1,
+    //% block="惯性滑行"
+    skid = 0
+}
+
 enum  White_Black_Line {
     //% block="黑线"
     Black = 1,
@@ -98,6 +110,39 @@ namespace Banbao {
             return false;
     }
  
+    /**
+     * 吃葡萄不吐葡萄皮
+     * @param io 在此处描述参数, eg: "D"
+     * @param speed 在此处描述参数, eg: "50"
+     */
+    //% block="电机 端口 %io 速度 %speed"
+    //% speed.min=-1023 speed.max=1023
+    export function motor(io: MOTORPORT, speed: number) {
+        let io1: DigitalPin;   //pin8 pin16
+        let io2: AnalogPin;    //pin1 pin2
+        switch (io) { 
+            case 4: io1 = DigitalPin.P8; io2=AnalogPin.P1; break;
+            case 5: io1 = DigitalPin.P16; io2=AnalogPin.P2; break;
+        }       
+        if(speed>=0)
+        {
+            pins.digitalWritePin(io1,0);
+            pins.analogWritePin(io2,speed);
+        }
+    }
+
+    /**
+     * 红鲤鱼与绿鲤鱼与驴
+     * @param io 在此处描述参数, eg: "C"
+     * @param speed 在此处描述参数, eg: "50"
+     */
+    //@param speed 在此处描述参数, eg: "500"
+    //% block="电机 端口 %io %Bratype"
+    export function MotorStop(io: IOPORT, Bratype: Brake_Type) {
+
+    }
+
+
   /**
      * A NeoPixel strip
      */
@@ -257,7 +302,7 @@ namespace Banbao {
         }
     }
 
-     
+   /*  
     export function ping(io: IOPORT,  maxCmDistance = 500): number {
         // send pulse
         let trig: DigitalPin;
@@ -266,7 +311,7 @@ namespace Banbao {
             case 3: trig = DigitalPin.P5; echo = DigitalPin.P11; break;
             case 5: trig = DigitalPin.P14; echo = DigitalPin.P15; break;
         }
-    
+    */
 
     /**
      * Create a new NeoPixel driver for LEDs.
