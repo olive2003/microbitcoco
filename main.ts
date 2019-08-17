@@ -132,7 +132,7 @@ namespace Banbao {
         else
         {
             pins.digitalWritePin(io1,1);
-            pins.analogWritePin(io2,1023-speed);           
+            pins.analogWritePin(io2,1023+speed);           
         }
     }
 
