@@ -349,6 +349,21 @@ namespace Banbao {
         return packRGB(red, green, blue);
     }
 
+    //% block="春天"
+    export function chun(): number {
+        return 1;
+    }   
+
+        //% block="xia天"
+        export function xia(): number {
+            return 1;
+        }   
+
+            //% block="qiu天"
+    export function qiu(): number {
+        return 1;
+    }   
+
     /**
      * Gets the RGB value of a known color
     */
