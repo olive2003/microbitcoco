@@ -182,7 +182,8 @@ namespace Banbao {
         }
     
         show() {
-            ws2812b.sendBuffer(this.buf, this.pin);
+//            ws2812b.sendBuffer(this.buf, this.pin);
+            ;
         }
    /**
          * Set the brightness of the strip. This flag only applies to future operation.
