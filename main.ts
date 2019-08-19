@@ -177,7 +177,7 @@ namespace Banbao {
 
         showColor(rgb: number) {
             rgb = rgb >> 0;
-//            this.setAllRGB(rgb);
+            this.setAllRGB(rgb);
 //            this.show();
         }
     
