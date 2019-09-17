@@ -1,4 +1,4 @@
-# CooCoo Package for Microsoft PXT
+# CooCoo Package for Banbao
 
 The github address of the package is https://github.com/alsrobot-microbit-makecode-packages/CooCoo
 The maintenance staff of the package is https://github.com/lzl525898
